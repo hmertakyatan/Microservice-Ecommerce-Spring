@@ -1,19 +1,20 @@
 version: '3'
 services:
   config-server:
-    image: app-config-server
+    image: springcloud/configserver
     ports:
       - "8888:8888"
     networks:
       - api-network
   eureka-server:
-    image: eureka-server
+    image: springcloud/eureka
     ports:
       - "8761:8761"
     networks:
       - api-network
 
   customer-db:
+    image: postgres
     ports:
       - "5432:5432"
     environment:
@@ -29,6 +30,11 @@ services:
   customer-service:
     ports:
       - "8080:8080"
+    build:
+      context: ./customer-service
+    depends_on:
+      - customer-db
+
 
 
 
