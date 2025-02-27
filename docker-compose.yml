@@ -1,0 +1,41 @@
+version: '3'
+services:
+  config-server:
+    image: app-config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - api-network
+  eureka-server:
+    image: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - api-network
+
+  customer-db:
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${DB_CUSTOMER_USERNAME}
+      POSTGRES_PASSWORD: ${DB_CUSTOMER_PASSWORD}
+      POSTGRES_DB: ${DB_CUSTOMER_DBNAME}
+    volumes:
+      - customer-service-data:/var/lib/postgresql/data
+    networks:
+      - api-network
+    restart: always
+
+  customer-service:
+    ports:
+      - "8080:8080"
+
+
+
+volumes:
+  customer-service-data:
+networks:
+  api-network:
+    driver: bridge
+
+

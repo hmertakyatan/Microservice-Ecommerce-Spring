@@ -28,7 +28,7 @@ public class CustomerRegisterService implements ICustomerRegisterService {
         Customer customer = new Customer();
         //TODO Mail service
         customer.setMail(request.email());
-        customer.setPassword(request.password());
+
         return true;
 
     }
